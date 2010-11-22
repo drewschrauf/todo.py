@@ -74,11 +74,22 @@ def archive(args):
 
 
 def delete(args):
-    print "DELETE"
+    todotxt = os.path.join(TODODIR, "todo.txt")
+    lines = []
+    with open(todotxt) as f:
+        for line in f:
+            lines.append(line)
+    if len(args.term) == 0:
+        lines[args.task - 1 : args.task] = []
+    else:
+        print "DELETE TERM NOT YET IMPLEMENTED"
+    with open(todotxt, "w") as f:
+        for line in lines:
+            f.write(line)
 
 
 def depri(args):
-    print "DEPRIORITIZE"
+    print "DEPRIORITIZE NOT YET IMPLEMENTED"
 
 
 def do_tasks(args):
@@ -137,7 +148,7 @@ def list_tasks(args):
 
 
 def listall(args):
-    print "LISTALL"
+    print "LISTALL NOT YET IMPLEMENTED"
 
 
 def list_contexts(args):
