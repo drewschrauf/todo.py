@@ -37,7 +37,21 @@ def add(args):
 
 
 def append(args):
-    print "APPEND"
+    todotxt = os.path.join(TODODIR, "todo.txt")
+    lines = []
+    with open(todotxt) as f:
+        lineno = 0
+        for line in f:
+            lineno += 1
+            lines.append(line.strip())
+            if lineno == args.task:
+                lines[lineno - 1] += " " + args.text
+    with open(todotxt, "w") as f:
+        for line in lines:
+            f.write(line)
+            f.write("\n")
+
+
 
 
 def archive(args):
