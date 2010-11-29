@@ -6,7 +6,7 @@ TODODIR = u"D:\\My Dropbox\\todo"
 # 0 = quiet
 # 1 = verbose
 # 2 = debug
-TODOVERBOSE = 2
+TODOVERBOSE = 0
 
 
 def get_linecount(filename):
@@ -50,8 +50,6 @@ def append(args):
         for line in lines:
             f.write(line)
             f.write("\n")
-
-
 
 
 def archive(args):
@@ -123,9 +121,7 @@ def do_tasks(args):
             f.write(line)
 
 
-def list_tasks(args):
-    filename = os.path.join(TODODIR, "todo.txt")
-
+def _list_file(filename, terms=[]):
     if TODOVERBOSE == 2:
         print "Opening {0}".format(filename)
 
@@ -134,7 +130,7 @@ def list_tasks(args):
         current_line = 0
         for line in f:
             match = True
-            for term in args.term:
+            for term in terms:
                 if term[0] == "-" and line.find(term[1:]) == -1:
                     match = match or True
                 elif line.find(term) != -1:
@@ -146,9 +142,18 @@ def list_tasks(args):
                 print "{1:{0}d} ".format(padding, current_line) + line.strip()
 
 
+def list_tasks(args):
+    filename = os.path.join(TODODIR, "todo.txt")
+    _list_file(filename, args.term)
+
 
 def listall(args):
-    print "LISTALL NOT YET IMPLEMENTED"
+    todotxt = os.path.join(TODODIR, "todo.txt")
+    donetxt = os.path.join(TODODIR, "done.txt")
+    print "---{0}---".format(todotxt)
+    _list_file(todotxt, args.term)
+    print "---{0}---".format(donetxt)
+    _list_file(donetxt, args.term)
 
 
 def list_contexts(args):
