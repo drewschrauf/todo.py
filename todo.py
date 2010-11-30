@@ -80,7 +80,8 @@ def delete(args):
     if len(args.term) == 0:
         lines[args.task - 1 : args.task] = []
     else:
-        print "DELETE TERM NOT YET IMPLEMENTED"
+        for term in args.term:
+            lines[args.task - 1] = lines[args.task - 1].replace(term, "")
     with open(todotxt, "w") as f:
         for line in lines:
             f.write(line)
