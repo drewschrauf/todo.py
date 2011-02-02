@@ -2,7 +2,7 @@ import argparse
 import os
 import re
 
-TODODIR = u"D:\\My Dropbox\\todo"
+TODODIR = u"."
 # 0 = quiet
 # 1 = verbose
 # 2 = debug
@@ -33,7 +33,7 @@ def add(args):
         print "Opening {0}".format(filename)
 
     with open(filename, "a+") as f:
-        f.write(args.task)
+        f.write(args.task + '\n')
 
 
 def append(args):
@@ -129,6 +129,7 @@ def _list_file(filename, terms=[]):
     totallines, padding = get_linecount(filename)
     with open(filename) as f:
         current_line = 0
+        items = []
         for line in f:
             match = True
             for term in terms:
@@ -140,7 +141,10 @@ def _list_file(filename, terms=[]):
                     match = False
             current_line += 1
             if match:
-                print "{1:{0}d} ".format(padding, current_line) + line.strip()
+                items.append(("{1:{0}d}".format(padding, current_line), line.strip()))
+
+        for item in sorted(items, key=lambda item: item[1]):
+            print item[0], item[1]
 
 
 def list_tasks(args):
